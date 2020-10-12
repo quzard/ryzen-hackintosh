@@ -1472,7 +1472,7 @@
 				<key>boot-args</key>
 				<string>npci=0x2000 alcid=11</string>
 				<key>csr-active-config</key>
-				<data>AAAAAA==</data>
+				<data>dwAAAA==</data>
 				<key>prev-lang:kbd</key>
 				<data>ZW4tVVM6MA==</data>
 			</dict>
