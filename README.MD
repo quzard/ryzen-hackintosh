@@ -1,4 +1,4 @@
-# OpenCore EFI for AMD Ryzen Hackintosh (macOS 10.13 - 11.0)
+# OpenCore EFI for AMD Ryzen Hackintosh
 
 ## Specification
 | **Component** | **Model** |
@@ -12,7 +12,7 @@
 | OS Disk (NVMe) | ADATA SX8200 Pro 1TB |
 
 **macOS version**: 11.2.2 (20D80)  
-**OpenCore version**: 0.6.6  
+**OpenCore version**: 0.6.7  
 
 ## Table of content
  - [Compatible macOS versions](#Compatible-macOS-versions)
