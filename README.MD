@@ -11,14 +11,14 @@
 | WiFi & Bluetooth | Fenvi T919 (BCM94360CD) |
 | OS Disk (NVMe) | ADATA SX8200 Pro 1TB |
 
-**macOS version**: 11.2.2 (20D80)  
+**macOS version**: 11.2.3 (20D91)  
 **OpenCore version**: 0.6.7  
 
 ## Table of content
  - [Compatible macOS versions](#Compatible-macOS-versions)
  - [Issues](#Issues)
  - [How to use](#How-to-use)
- - [RX 5600 GPU fix](#RX-5600-GPU-fix)
+ - [AMD Navi fix](#AMD-Navi-fix)
  - [Sleep informations](#Sleep-informations)
  - [PAT patch information](#PAT-patch-information)
  - [Adobe applications fix](#Adobe-applications-fix)
@@ -46,8 +46,8 @@ If audio does not work for you you have to change layout-id for your audio chips
 
 **You CAN NOT use SMBIOS from this repository, it MUST be unique for every macOS installation**
 
-## RX 5600 GPU fix
-For AMD RX 5600 and RX 5700 GPUs you have to add `agdpmod=pikera` to boot-args to fix black screen issue.
+## AMD Navi fix
+For AMD Navi GPUs (RX 5500, 5600, 5700) you have to add `agdpmod=pikera` to boot-args to fix black screen issue.
 
 ## Sleep informations
 In `SSDT-SLEEP.aml` there are patches for _STA method. They are applied to `_SB.PCI0.GPP2.PTXH` and `_SB.PCI0.GP17.XHC0` USB controllers. Both patches are applied only for macOS, so sleep on other systems will work normally.
@@ -100,7 +100,7 @@ If you have any other questions or issues, feel free to ask on [**AMD-OSX Discor
  - [[Kext] AMDRyzenCPUPowerManagement](https://github.com/trulyspinach/SMCAMDProcessor)
  - [[Kext] SMCAMDProcessor](https://github.com/trulyspinach/SMCAMDProcessor)
  - [[Kext] NVMeFix](https://github.com/acidanthera/NVMeFix)
- - [[Kext] AppleMCEReporterDisabler](https://github.com/AMD-OSX/AMD_Vanilla/blob/experimental-opencore/Extra/AppleMCEReporterDisabler.kext.zip)  
+ - [[Kext] AppleMCEReporterDisabler](https://github.com/AMD-OSX/AMD_Vanilla/blob/opencore/Extra/AppleMCEReporterDisabler.kext.zip)  
 
  **People:**
  - [Apple](https://apple.com) for macOS
