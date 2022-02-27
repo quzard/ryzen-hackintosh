@@ -13,8 +13,8 @@
 | WiFi & Bluetooth | Fenvi T919 (BCM94360CD)                    |
 | OS Disk (NVMe)   | ADATA SX8200 Pro 1TB                       |
 
-**macOS version**: 12.0 Beta 5 (21A5304g) \
-**OpenCore version**: 0.7.2
+**macOS version**: 12.2.1 (21D62) \
+**OpenCore version**: 0.7.7
 
 ## Table of contents
 
@@ -57,7 +57,7 @@ _Support for 15h (FX series), 16h (A series) and Threadripper CPUs is not covere
 | Nvidia     | Partially <sup>1</sup>        |
 | AMD        | Yes <sup>2</sup> <sup>3</sup> |
 
-<sup>1</sup> Kepler series under correct [PAT Patch](#PAT-Patch). Others require WebDrivers which work only in High Sierra or are not supported. More details on [Dortania](https://dortania.github.io/GPU-Buyers-Guide/modern-gpus/nvidia-gpu.html).
+<sup>1</sup> Support for Nvidia GPUs was dropped in Monterey Beta 7, the only way to get it back is using [OpenCore Legacy Patcher](https://github.com/dortania/OpenCore-Legacy-Patcher). Kepler series under correct [PAT Patch](#PAT-Patch). Others require WebDrivers which work only in High Sierra or are not supported. More details on [Dortania](https://dortania.github.io/GPU-Buyers-Guide/modern-gpus/nvidia-gpu.html).
 
 <sup>2</sup> Some R7 and R9 GPUs require FakeID. More details [here](https://dortania.github.io/Getting-Started-With-ACPI/Universal/spoof.html)
 
@@ -84,7 +84,7 @@ All laptops with AMD CPUs are not supported due to integrated GPUs incompatbilit
 
 Follow these steps to properly install _SSDT-CPUR_.
 
-- Download from [here](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-CPUR.aml).
+- Download from [here](https://github.com/naveenkrdy/Misc/blob/master/SSDTs/Compiled/SSDT-CPUR.aml).
 - Install it to your `OC/ACPI` directory.
 - Add it to your configuration file. Use ProperTree for simplicity.
 
@@ -183,14 +183,13 @@ Rembember that AirDrop, Handoff, etc. works only on cards with Broadcom chip.
 
 5. You should update your BIOS to the latest version and configure it appropriately. See [BIOS Settings](#BIOS-Settings) for details.
 6. Remember to verify your hardware and apply appropriate changes to your configuration file. See [Hardware Compatibility](#Hardware-compatibility) for details.
-7. That's it! Now you can boot macOS installer.
+7. Map your USB ports with [USBToolBox](https://github.com/USBToolBox/tool). Guide about it is available [here](https://github.com/USBToolBox/tool#usage). You have to do it from Windows.
+8. That's it! Now you can boot macOS installer.
 
 ### Post-Installation
 
-8. Copy your EFI directory onto your main drive EFI partition, you'll be able to boot the system without your bootable USB.
-9. Apply [Ryzen patch script](/Resources/ryzen_patch.sh) - it solves MKL (Math Kernel Library) issues and sets correct sleep parameters.
-10. Map your USB ports. If you have working Windows instance I recommend [this tool](https://github.com/usbtoolbox/tool), otherwise you have to [do it manually](https://dortania.github.io/OpenCore-Post-Install/usb/#macos-and-the-15-port-limit). This step is not required if all of your ports are working with correct speed, but it's recommended. \
-After mapping remember to disable `Kernel -> Quriks -> XhciPortLimit` in your configuration file.
+9. Copy your EFI directory onto your main drive EFI partition, you'll be able to boot the system without your bootable USB.
+10. Apply [Ryzen patch script](/Resources/ryzen_patch.sh) - it solves MKL (Math Kernel Library) issues and sets correct sleep parameters.
 11. If you have `Unknown` instead of your CPU name in About this Mac go to `PlatformInfo -> Generic -> ProcessorType` in your configuration file. Set it to `3841` if your CPU has 8 or more physical cores, else set it to `1537`.
 12. When everything work you can disable verbose mode - then you will see Apple's logo instead of logs while booting. To do it you have to remove `-v debug=0x100 keepsyms=1` from `boot-args` in your configuration file.
 
@@ -238,7 +237,7 @@ To switch to another patch look for `mtrr_update_action` in `config.plist`. Then
 
 Some applications for macOS use MKL - Math Kernel Library. Unfortunately, it does not work on AMD CPUs natively - we need to patch it with [this script](/Resources/ryzen_patch.sh).
 
-There's also `intel_fast_memset` instruction which, obviously, doesn't exist on AMD systems. It's very common in Adobe software - you can simply fix it by running [this script](/Resources/adobe_patch.sh). Older versions of Adobe software (e. g. up to 22.3.1 for Photoshop) need it's [legacy version](/Resources/adobe_patch_legacy.sh).
+There's also `intel_fast_memset` instruction which, obviously, doesn't exist on AMD systems. It's very common in Adobe software - you can simply fix it by running [this script](/Resources/adobe_patch.sh). Older versions of Adobe software (e. g. up to 22.3.1 for Photoshop) need it's [legacy version](/Resources/adobe_patch_legacy.sh). For details about Adobe patching check thead on [macos86.it](https://www.macos86.it/topic/4822-photoshop-after-effects-cc-2021-premiere-pro-cc-2021-154-amd-hackintosh-fix/).
 
 If you have problems while running script from file, try to copy and paste it's code to Terminal.
 
@@ -275,6 +274,8 @@ If USB fixes does not help, probably something another is broken. You can read m
 | VirtualBox        | Drastically decreased performance.                                                                             |
 | VMWare Fusion 10  | Only Catalina and older, for Catalina with [this patch](https://posts.boy.sh/vmware-fusion-catalina).          |
 | Docker            | Only [Docker in VirtualBox](https://github.com/sergeycherepanov/homebrew-docker-virtualbox) or Docker Toolbox. |
+| Android Emulator  | Only [Android-x86](https://www.android-x86.org/) with compatible VM software.                                  |
+| iOS Emulator      | Works out of the box.                                                                                          |
 
 <sup>1</sup> Parallels will not work by default on Big Sur and newer, you need to use `SYSTEM_VERSION_COMPAT=1` environment variable.
 
@@ -312,7 +313,10 @@ If you have any other questions or issues, feel free to ask on [AMD-OSX Discord]
 - [Acidanthera](https://github.com/acidanthera) for OpenCore and most of used kexts
 - [Trulyspinach](https://github.com/trulyspinach) for Ryzen power management and monitoring kexts
 - [Mieze](https://github.com/Mieze) for RealtekRTL8111 kext
-- [XLNC](https://github.com/naveenkrdy) for AppleMCEReporterDisabler and Adobe patches for AMD CPUs
+- [DhinakG](https://github.com/USBToolBox) for USBToolBox
+- [XLNC](https://github.com/naveenkrdy) for Adobe patches for AMD CPUs and AppleMCEReportedDisabler kext
+- [Pavo](https://github.com/Pavo-IM) for research about AppleMCEReportedDisabler in Monterey
+- [tomnic](https://www.macos86.it/profile/69-tomnic/) for libfakeintel.dylib used by Adobe patches
 - [Dortania](https://github.com/dortania) for OpenCore configuration guides
 - [AMD-OSX Community](https://amd-osx.com) for support while making my Hackintosh
 - [SocketByte](https://github.com/SocketByte) for README maintenance and being a great friend :)
